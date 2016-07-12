@@ -50,6 +50,7 @@ gulp.task('serve', function() {
   nodemon({
       script: 'app.js',
       ext: 'html js',
+      ignore: ['./client', './public']
     })
     .on('restart', function() {
       console.log('restarted!');
