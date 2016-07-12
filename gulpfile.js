@@ -29,15 +29,24 @@ let paths = {
   css: {
     input: 'client/css/**/*.scss',
     output: 'public/css'
+  },
+  favicon: {
+    input: './client/favicon.ico',
+    output: './public'
   }
 }
 
-gulp.task('default', ['build', 'watch']);
+gulp.task('default', ['build', 'watch', 'serve']);
 
-gulp.task('build', [['html', 'css', 'js']]);
+gulp.task('build', ['html', 'css', 'js']);
+
+gulp.task('favicon', function() {
+  return gulp.src(paths.favicon.input)
+    .pipe(gup.dest(paths.favicon.output));
+})
 
 // nodemon
-gulp.task('develop', function() {
+gulp.task('serve', function() {
   nodemon({
       script: 'app.js',
       ext: 'html js',
