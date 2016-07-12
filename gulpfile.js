@@ -27,15 +27,14 @@ let paths = {
     output: 'public/html'
   },
   css: {
-    input: 'client/css/**/*.css',
+    input: 'client/css/**/*.scss',
     output: 'public/css'
-  },
-  sass: {
-    input: 'client/sass/**/*.scss'
   }
 }
 
-gulp.task('default', ['develop', 'angular-parts', 'sass', 'html', 'watch']);
+gulp.task('default', ['build', 'watch']);
+
+gulp.task('build', [['html', 'css', 'js']]);
 
 // nodemon
 gulp.task('develop', function() {
@@ -48,11 +47,11 @@ gulp.task('develop', function() {
     })
 });
 
-gulp.task('angular-parts', ['clean:js'], function() {
+gulp.task('js', ['clean:js'], function() {
   gulp.src(paths.js.input)
   .pipe(plumber())
   .pipe(sourcemaps.init())
-    .pipe(concat('angular-parts.js'))
+    .pipe(concat('bundle.js'))
     .pipe(babel({
       presets: ['es2015']
     }))
@@ -74,8 +73,8 @@ gulp.task('clean:html', function() {
 });
 
 
-gulp.task('sass', ['clean:css'], function() {
-  return gulp.src(paths.sass.input)
+gulp.task('css', ['clean:css'], function() {
+  return gulp.src(paths.css.input)
     .pipe(sass().on('error', sass.logError))
     .pipe(gulp.dest(paths.css.output));
 });
